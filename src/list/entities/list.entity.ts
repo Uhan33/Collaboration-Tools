@@ -15,8 +15,8 @@ export class List {
     @Column({ type: 'varchar', nullable: false})
     title: string
 
-    @Column({ type: 'varchar', nullable: false})
-    position: string
+    @Column({ type: 'int', nullable: false})
+    position: number
 
     @CreateDateColumn() 
     createdAt: Date; 

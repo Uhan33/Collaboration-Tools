@@ -23,14 +23,14 @@ export class Card {
     @Column({ type: 'varchar'})
     content: string
 
-    @Column({ type: 'varchar', nullable: false})
+    @Column({ type: 'varchar', nullable: false, default: 'white'})
     backgroundColor: string
 
     @Column({ type: 'varchar', nullable: false})
     image: string
 
-    @Column({ type: 'varchar', nullable: false})
-    position: string
+    @Column({ type: 'int', nullable: false})
+    position: number
     
     @Column() 
     startDate: Date; 

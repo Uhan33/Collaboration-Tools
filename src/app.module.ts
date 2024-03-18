@@ -7,14 +7,15 @@ import { CommentModule } from './comment/comment.module';
 import { CardModule } from './card/card.module';
 import { BoardModule } from './board/board.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { DataSourceOptions, DataSource } from 'typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { User } from './user/entities/user.entity';
 import { Shared } from './user/entities/shared.entity';
 import { Board } from './board/entities/board.entity';
 import { List } from './list/entities/list.entity';
 import Joi from 'joi';
+import { Comment } from './comment/entities/comment.entity';
+import { Card } from './card/entities/card.entity';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -27,7 +28,7 @@ const typeOrmModuleOptions = {
     host: configService.get('DB_HOST'),
     port: configService.get('DB_PORT'),
     database: configService.get('DB_NAME'),
-    entities: [User, Shared, Board, Comment, List], // 엔티티는 반드시 여기에 명시!
+    entities: [User, Shared, Board, Comment, List, Card], // 엔티티는 반드시 여기에 명시!
     synchronize: configService.get('DB_SYNC'),
     logging: true,
   }),
@@ -48,7 +49,12 @@ const typeOrmModuleOptions = {
       DB_SYNC: Joi.boolean().required(),
     }),
   }),
-    UserModule, BoardModule, CardModule, CommentModule, ListModule],
+  TypeOrmModule.forRootAsync(typeOrmModuleOptions),
+  UserModule, 
+  BoardModule, 
+  CardModule, 
+  CommentModule, 
+  ListModule],
   controllers: [AppController],
   providers: [AppService],
 })

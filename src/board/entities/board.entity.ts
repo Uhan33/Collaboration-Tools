@@ -35,7 +35,7 @@ export class Board {
     @OneToMany(() => List, (list) => list.board, {
         cascade: true,
     })
-    list: List;
+    list: List[];
 }
 
 

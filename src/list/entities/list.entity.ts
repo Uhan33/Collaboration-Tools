@@ -33,7 +33,7 @@ export class List {
     @OneToMany(() => Card, (card) => card.list, {
         cascade: true,
     })
-    card: Card;
+    card: Card[];
 }
 
 

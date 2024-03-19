@@ -7,28 +7,38 @@ import { UpdateCardDto } from './dto/update-card.dto';
 export class CardController {
   constructor(private readonly cardService: CardService) {}
 
-  @Post()
-  create(@Body() createCardDto: CreateCardDto) {
-    return this.cardService.create(createCardDto);
+  @Post('create')
+  createCard(@Body() createCardDto: CreateCardDto ,@Body() userId: number) {
+    return this.cardService.createCard(createCardDto, userId);
   }
 
-  @Get()
-  findAll() {
-    return this.cardService.findAll();
+  @Get('list/:listId')
+  findAllCards(@Param('listId') listId: number) {
+    return this.cardService.findAllCards(listId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cardService.findOne(+id);
+  @Get(':cardId')
+  findOneByCardId(@Param('cardId') cardId: number) {
+    return this.cardService.findOneByCardId(cardId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCardDto: UpdateCardDto) {
-    return this.cardService.update(+id, updateCardDto);
+  @Patch(':cardId')
+  updateCard(@Param('cardId') id: number, @Body() updateCardDto: UpdateCardDto) {
+    return this.cardService.updateCard(id, updateCardDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cardService.remove(+id);
+  @Delete(':cardId')
+  removeCard(@Param('cardId') id: number) {
+    return this.cardService.removeCard(id);
+  }
+
+  @Post(':cardId/position/:value')
+  changeCardPosition(@Param('cardId') cardId: number, @Param('value') value: number) {
+    return this.cardService.changeCardPosition(cardId, value);
+  }
+
+  @Get('test/:id')
+  testOrderByPosition(@Param('id') id: number) {
+    return this.cardService.sortByPosition('card', id);
   }
 }

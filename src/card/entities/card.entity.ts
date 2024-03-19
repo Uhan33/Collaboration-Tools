@@ -29,7 +29,7 @@ export class Card {
     @Column({ type: 'varchar', nullable: false})
     image: string
 
-    @Column({ type: 'int', nullable: false})
+    @Column({ type: 'double', nullable: false})
     position: number
     
     @Column() 
@@ -55,9 +55,9 @@ export class Card {
     @JoinColumn()
     list: List;
 
-    @OneToOne(() => Shared, (shared) => shared.card)
-    @JoinColumn()
-    shared: Shared;
+    // @ManyToOne(() => Shared, (shared) => shared.card)
+    // @JoinColumn()
+    // shared: Shared;
 }
 
 

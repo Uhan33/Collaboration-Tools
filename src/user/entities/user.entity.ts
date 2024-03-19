@@ -35,13 +35,15 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Shared, (shared) => shared.user, {
-    cascade: true,
-  })
-  shared: Shared[];
 
-  @OneToMany(() => Board, (board) => board.user, {
-    cascade: true,
-  })
-  board: Board[];
+    @OneToMany(() => Shared, (shared) => shared.user, {
+        cascade: true
+    })
+    shared: Shared[];
+
+    @OneToMany(() => Board, (board) => board.user, {
+        cascade: true
+    })
+    board: Board[];
+
 }

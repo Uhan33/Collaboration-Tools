@@ -25,8 +25,9 @@ export class Board {
   @Column({ type: 'varchar', nullable: false })
   title: string;
 
-  @Column({ type: 'varchar' })
-  content: string;
+
+    @Column({ type: 'varchar', nullable: false, default: 'white'})
+    backgroundColor: string
 
   @Column({ type: 'varchar', nullable: false, default: 'white' })
   backgroundColor: string;
@@ -34,8 +35,15 @@ export class Board {
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+    @ManyToOne(() => User, (user) => user.board)
+    @JoinColumn()
+    user: User;
+    
+    @OneToMany(() => List, (list) => list.board, {
+        cascade: true,
+    })
+    list: List[];
+}
 
   @ManyToOne(() => User, (user) => user.board)
   @JoinColumn()

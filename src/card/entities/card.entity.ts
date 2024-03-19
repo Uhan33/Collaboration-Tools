@@ -29,14 +29,20 @@ export class Card {
   @Column({ type: 'varchar', nullable: false })
   title: string;
 
-  @Column({ type: 'varchar' })
-  content: string;
+
+    @Column({ type: 'varchar', nullable: false, default: 'white'})
+    backgroundColor: string
+
 
   @Column({ type: 'varchar', nullable: false, default: 'white' })
   backgroundColor: string;
 
-  @Column({ type: 'varchar', nullable: false })
-  image: string;
+
+    @Column({ type: 'int', nullable: false})
+    position: number
+    
+    @Column() 
+    startDate: Date; 
 
   @Column({ type: 'int', nullable: false })
   position: number;

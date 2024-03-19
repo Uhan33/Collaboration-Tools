@@ -24,8 +24,9 @@ export class List {
   @Column({ type: 'varchar', nullable: false })
   title: string;
 
-  @Column({ type: 'int', nullable: false })
-  position: number;
+    @Column({ type: 'int', nullable: false})
+    position: number
+
 
   @CreateDateColumn()
   createdAt: Date;
@@ -39,8 +40,8 @@ export class List {
   @JoinColumn()
   board: Board;
 
-  @OneToMany(() => Card, (card) => card.list, {
-    cascade: true,
-  })
-  card: Card[];
+    @OneToMany(() => Card, (card) => card.list, {
+        cascade: true,
+    })
+
 }

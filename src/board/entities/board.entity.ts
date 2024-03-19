@@ -28,7 +28,7 @@ export class Board {
   @Column({ type: 'varchar' })
   content: string;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar', nullable: false, default: 'white' })
   backgroundColor: string;
 
   @CreateDateColumn()
@@ -44,5 +44,5 @@ export class Board {
   @OneToMany(() => List, (list) => list.board, {
     cascade: true,
   })
-  list: List;
+  list: List[];
 }

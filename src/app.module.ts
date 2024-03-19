@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -9,15 +8,14 @@ import { CardModule } from './card/card.module';
 import { BoardModule } from './board/board.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-// import { DataSourceOptions, DataSource } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { User } from './user/entities/user.entity';
 import { Shared } from './user/entities/shared.entity';
 import { Board } from './board/entities/board.entity';
 import { List } from './list/entities/list.entity';
-import { Card } from './card/entities/card.entity';
-import { Comment } from './comment/entities/comment.entity';
 import Joi from 'joi';
+import { Comment } from './comment/entities/comment.entity';
+import { Card } from './card/entities/card.entity';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -30,7 +28,7 @@ const typeOrmModuleOptions = {
     host: configService.get('DB_HOST'),
     port: configService.get('DB_PORT'),
     database: configService.get('DB_NAME'),
-    entities: [User, Shared, Board, Card, Comment, List], // 엔티티는 반드시 여기에 명시!
+    entities: [User, Shared, Board, Comment, List, Card], // 엔티티는 반드시 여기에 명시!
     synchronize: configService.get('DB_SYNC'),
     logging: true,
   }),
@@ -57,7 +55,6 @@ const typeOrmModuleOptions = {
     CardModule,
     CommentModule,
     ListModule,
-    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

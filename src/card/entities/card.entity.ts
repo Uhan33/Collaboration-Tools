@@ -1,63 +1,70 @@
-import { Comment } from "src/comment/entities/comment.entity";
-import { List } from "src/list/entities/list.entity";
-import { Shared } from "src/user/entities/shared.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
+import { Comment } from 'src/comment/entities/comment.entity';
+import { List } from 'src/list/entities/list.entity';
+import { Shared } from 'src/user/entities/shared.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({
-    name: 'card',
+  name: 'card',
 })
 export class Card {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ type: 'int', nullable: false})
-    listId: number
+  @Column({ type: 'int', nullable: false })
+  listId: number;
 
-    @Column({ type: 'int', nullable: false})
-    userId: number
+  @Column({ type: 'int', nullable: false })
+  userId: number;
 
-    @Column({ type: 'varchar', nullable: false})
-    title: string
+  @Column({ type: 'varchar', nullable: false })
+  title: string;
 
-    @Column({ type: 'varchar'})
-    content: string
+  @Column({ type: 'varchar' })
+  content: string;
 
-    @Column({ type: 'varchar', nullable: false})
-    backgroundColor: string
+  @Column({ type: 'varchar', nullable: false })
+  backgroundColor: string;
 
-    @Column({ type: 'varchar', nullable: false})
-    image: string
+  @Column({ type: 'varchar', nullable: false })
+  image: string;
 
-    @Column({ type: 'varchar', nullable: false})
-    position: string
-    
-    @Column() 
-    startDate: Date; 
+  @Column({ type: 'varchar', nullable: false })
+  position: string;
 
-    @Column() 
-    dueDate: Date;
+  @Column()
+  startDate: Date;
 
-    @CreateDateColumn() 
-    createdAt: Date;
+  @Column()
+  dueDate: Date;
 
-    @UpdateDateColumn() 
-    updatedAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @OneToMany(() => Comment, (comment) => comment.card, {
-        cascade: true,
-    })
-    comment: Comment[];
+  @UpdateDateColumn()
+  updatedAt: Date;
 
-    @ManyToOne(() => List, (list) => list.card, {
-        onDelete: 'CASCADE'
-    })
-    @JoinColumn()
-    list: List;
+  @OneToMany(() => Comment, (comment) => comment.card, {
+    cascade: true,
+  })
+  comment: Comment[];
 
-    @OneToOne(() => Shared, (shared) => shared.card)
-    @JoinColumn()
-    shared: Shared;
+  @ManyToOne(() => List, (list) => list.card, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  list: List;
+
+  @OneToOne(() => Shared, (shared) => shared.card)
+  @JoinColumn()
+  shared: Shared;
 }
-
-

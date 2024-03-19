@@ -1,4 +1,14 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateBoardDto } from './create-board.dto';
+import { IsNotEmpty, IsString } from 'class-validator';
 
-export class UpdateBoardDto extends PartialType(CreateBoardDto) {}
+export class UpdateBoardDto {
+  @IsString()
+  @IsNotEmpty({ message: '보드 제목을 입력해주세요.' })
+  title: string;
+
+  @IsString()
+  @IsNotEmpty({ message: '보드 배경색을 입력해주세요.' })
+  backgroundColor: string;
+
+  @IsString()
+  content: string;
+}

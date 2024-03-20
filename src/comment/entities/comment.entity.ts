@@ -5,19 +5,20 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGenerat
 
 =======
 import { Card } from 'src/card/entities/card.entity';
+import { User } from 'src/user/entities/user.entity';
 import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
 } from 'typeorm';
 >>>>>>> dev
 
 @Entity({
-  name: 'comment',
+    name: 'comment',
 })
 export class Comment {
   @PrimaryGeneratedColumn()
@@ -61,5 +62,14 @@ export class Comment {
   })
   @JoinColumn()
   card: Card;
+<<<<<<< HEAD
+>>>>>>> dev
+=======
+
+  @ManyToOne(() => User, (user) => user.comment, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  user: User;
 >>>>>>> dev
 }

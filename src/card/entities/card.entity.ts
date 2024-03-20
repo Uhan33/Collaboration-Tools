@@ -1,6 +1,5 @@
 import { Comment } from 'src/comment/entities/comment.entity';
 import { List } from 'src/list/entities/list.entity';
-import { Shared } from 'src/user/entities/shared.entity';
 import {
   Column,
   CreateDateColumn,

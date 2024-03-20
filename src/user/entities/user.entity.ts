@@ -17,7 +17,7 @@ import {
 import { Role } from '../types/userRole.type';
 import { Shared } from './shared.entity';
 import { Board } from 'src/board/entities/board.entity';
->>>>>>> dev
+import { Comment } from 'src/comment/entities/comment.entity';
 
 @Entity({
   name: 'user',
@@ -45,21 +45,20 @@ export class User {
   updatedAt: Date;
 
 
-    @OneToMany(() => Shared, (shared) => shared.user, {
-        cascade: true
-    })
-    shared: Shared[];
+  @OneToMany(() => Shared, (shared) => shared.user, {
+    cascade: true
+  })
+  shared: Shared[];
 
-    @OneToMany(() => Board, (board) => board.user, {
-        cascade: true
-    })
-    board: Board[];
+  @OneToMany(() => Board, (board) => board.user, {
+    cascade: true
+  })
+  board: Board[];
 
-<<<<<<< HEAD
-    @OneToMany(() => Comment, (comment) => comment.user, {
-        cascade: true
-    })
-    comment: Comment[];
-=======
->>>>>>> dev
+  @OneToMany(() => Comment, (comment) => comment.user, {
+    cascade: true
+  })
+  comment: Comment[];
+  
+
 }

@@ -7,9 +7,9 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  @Post()
-  create(@Body() createCommentDto: CreateCommentDto) {
-    return this.commentService.create(createCommentDto);
+  @Post('/create/card/:cardId')
+  createComment(@Body() createCommentDto: CreateCommentDto, @Param('cardId') cardId: number, userId: number) {
+    return this.commentService.createComment(createCommentDto, cardId, userId);
   }
 
   @Get()

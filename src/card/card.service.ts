@@ -68,19 +68,9 @@ export class CardService {
   }
 
   async findOneByCardId(id: number) {
-    let num = Number.MAX_VALUE/2;
-    for(let i = 0; i < 2000; i++) {
-      if(i === 0) {
-        console.log((num=num/2));
-        continue;
-      }
-
-      console.log((num=(num+1.8e+10)/2));
-      if(num === 1.8e+10) {
-        console.log(i+"번째 까지");
-        break;
-      }
-    }
+    if(_.isNil(await this.cardRepository.findOneBy({id})))
+      throw new NotFoundException('존재하지 않는 카드입니다.')
+    
     return await this.cardRepository.findOneBy({ id });
   }
 
@@ -134,7 +124,6 @@ export class CardService {
   }
 
   // -------------- card repo ----------------------
-  async
 
 
   // -------------- list repo ----------------------

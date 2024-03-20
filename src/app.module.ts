@@ -49,7 +49,6 @@ const typeOrmModuleOptions = {
         DB_SYNC: Joi.boolean().required(),
       }),
     }),
-  }),
   TypeOrmModule.forRootAsync(typeOrmModuleOptions),
   UserModule, 
   BoardModule, 

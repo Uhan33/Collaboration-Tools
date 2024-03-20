@@ -1,7 +1,6 @@
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
-import { Card } from "src/card/entities/card.entity";
 
 
 @Entity({
@@ -20,9 +19,4 @@ export class Shared {
   @ManyToOne(() => User, (user) => user.shared)
   @JoinColumn()
   user: User;
-
-  @OneToOne(() => Card, (card) => card.shared, {
-    cascade: true,
-  })
-  card: Card;
 }

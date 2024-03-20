@@ -40,10 +40,11 @@ export class List {
   @JoinColumn()
   board: Board;
 
-
-    @OneToMany(() => Card, (card) => card.list, {
-        cascade: true,
-    })
+  @OneToMany(() => Card, (card) => card.list, {
+    cascade: true,
+  })
+  @JoinColumn()
+  card: Card;
 
 
 }

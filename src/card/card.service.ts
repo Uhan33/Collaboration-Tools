@@ -123,9 +123,6 @@ export class CardService {
     return { message: '순서 변경 완료!' };
   }
 
-  // -------------- card repo ----------------------
-
-
   // -------------- list repo ----------------------
   async findlistById(id: number) {
     return await this.listRepository.findOneBy({ id });

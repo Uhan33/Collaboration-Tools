@@ -19,12 +19,4 @@ export class Shared {
   @ManyToOne(() => User, (user) => user.shared)
   @JoinColumn()
   user: User;
-<<<<<<< HEAD
-
-  // @OneToMany(() => Card, (card) => card.shared, {
-  //     cascade: true
-  // })
-  // card: Card[];
-=======
->>>>>>> dev
 }

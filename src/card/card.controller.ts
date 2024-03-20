@@ -1,15 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { CardService } from './card.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { UserInfo } from 'src/user/utils/userInfo.decorator';
+import { User } from 'src/user/entities/user.entity';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('card')
 export class CardController {
   constructor(private readonly cardService: CardService) {}
 
   @Post()
-  createCard(@Body() createCardDto: CreateCardDto ,@Body() userId: number) {
-    return this.cardService.createCard(createCardDto, userId);
+  createCard(@Body() createCardDto: CreateCardDto, @UserInfo() user: User) {
+    return this.cardService.createCard(createCardDto, user.id);
   }
 
   @Get()

@@ -1,23 +1,9 @@
-<<<<<<< HEAD
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Role } from "../types/userRole.type";
 import { Shared } from "./shared.entity";
 import { Board } from "src/board/entities/board.entity";
 import { Comment } from "src/comment/entities/comment.entity";
 
-=======
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { Role } from '../types/userRole.type';
-import { Shared } from './shared.entity';
-import { Board } from 'src/board/entities/board.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
 
 @Entity({
   name: 'user',
@@ -44,7 +30,6 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-
   @OneToMany(() => Shared, (shared) => shared.user, {
     cascade: true
   })
@@ -59,6 +44,4 @@ export class User {
     cascade: true
   })
   comment: Comment[];
-  
-
 }

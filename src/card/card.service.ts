@@ -45,7 +45,7 @@ export class CardService {
 
     console.log(nextCardPosition);
 
-    // if(nextCardPosition = cardlength)
+    // if(nextCardPosition = cardList[0].position)
     // position 초기화작업
 
     return await this.cardRepository.save({
@@ -74,9 +74,8 @@ export class CardService {
     return await this.cardRepository.findOneBy({ id });
   }
 
-  async updateCard(id: number, updateCardDto: UpdateCardDto) {
-    if (_.isNil(await this.findOneByCardId(id)))
-      throw new NotFoundException('존재하지 않는 카드입니다.');
+  async updateCard(id: number, updateCardDto: UpdateCardDto, userId: number) {
+    await this.validate(id, userId);
 
     if (_.isNil(updateCardDto))
       throw new BadRequestException('수정 내용이 비었습니다.');
@@ -92,11 +91,7 @@ export class CardService {
 
   async changeCardPosition(cardId: number, changePositionNumber: number) {
     const card = await this.findOneByCardId(cardId);
-
-    const selectCard = await this.cardRepository.find({
-      where: { listId: card.listId },
-      order: { position: 'ASC' },
-    });
+    const selectCard = await this.sortByPosition('card', card.listId);
     const selectPosition = selectCard[changePositionNumber - 1].position;
 
     // 첫 번째 자리로 옮기는 경우
@@ -123,9 +118,15 @@ export class CardService {
     return { message: '순서 변경 완료!' };
   }
 
-  // -------------- list repo ----------------------
-  async findlistById(id: number) {
-    return await this.listRepository.findOneBy({ id });
+  async validate(id: number, userId: number) {
+    const selectCard = await this.findOneByCardId(id);
+    if(_.isNil(selectCard))
+      throw new NotFoundException('존재하지 않는 카드입니다.');
+
+    if(selectCard.userId !== userId)
+      throw new BadRequestException('권한이 없습니다.');
+
+    return selectCard;
   }
 
   // list를 정렬하려면 'list'와 boardId를 받고 card를 정렬하려면 'card'와 'listId' 받음
@@ -138,8 +139,14 @@ export class CardService {
     }
   }
 
-  async cardCount(id: number) {
-    return await this.listRepository.countBy({ id });
+
+
+
+
+
+  // -------------- list repo ----------------------
+  async findlistById(id: number) {
+    return await this.listRepository.findOneBy({ id });
   }
 
 
@@ -154,5 +161,11 @@ export class CardService {
 
   async findOneUser(userId: number, boardId: number) {
     return await this.sharedRepository.findOneBy({ userId, boardId });
+  }
+
+
+  // ---------------- validate Board --------------------
+  async CheckAllowBoard(cardId: number, userId: number) {
+    const checkList = await this.findlistById(cardId)
   }
 }

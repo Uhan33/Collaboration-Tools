@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,7 +10,7 @@ import { Board } from './entities/board.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Shared } from 'src/user/entities/shared.entity';
-import _, { update } from 'lodash';
+import _ from 'lodash';
 
 @Injectable()
 export class BoardService {
@@ -172,5 +176,16 @@ export class BoardService {
       },
     });
     return Boolean(shared);
+  }
+
+  // list에서 boardId 확인용
+  async findById(id: number): Promise<Board> {
+    const board = await this.boardRepository.findOne({
+      where: { id },
+    });
+    if (!board) {
+      throw new NotFoundException('해당 board가 존재하지 않습니다.');
+    }
+    return board;
   }
 }

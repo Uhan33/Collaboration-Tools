@@ -17,6 +17,7 @@ import Joi from 'joi';
 import { Comment } from './comment/entities/comment.entity';
 import { Card } from './card/entities/card.entity';
 import { AuthModule } from './auth/auth.module';
+import { ListModule } from './list/list.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (

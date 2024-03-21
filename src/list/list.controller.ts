@@ -7,23 +7,24 @@ import {
   Param,
   Delete,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { ListService } from './list.service';
 import { CreateListDto } from './dto/create-list.dto';
 import { BoardService } from 'src/board/board.service';
+import { AuthGuard } from '@nestjs/passport';
 @Controller(':boardId/list')
 export class ListController {
   constructor(
     private readonly listService: ListService,
     private readonly boardService: BoardService,
-  ) {
-    await this.boardService.findById(boardId);
-  }
+  ) {}
 
   // 컬럼 리스트 조회
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async findAll(@Param('boardId') boardId: number) {
-    await this.boardService.findById(boardId);
+    // await this.boardService.findById(boardId);
 
     const lists = await this.listService.findAll(boardId);
 
@@ -35,12 +36,13 @@ export class ListController {
   }
 
   // 컬럼 리스트 생성
+  @UseGuards(AuthGuard('jwt'))
   @Post('create')
   async create(
     @Param('boardId') boardId: number,
     @Body() createListDto: CreateListDto,
   ) {
-    await this.boardService.findById(boardId);
+    // await this.boardService.findById(boardId);
     const listNumber = await this.listService.count(boardId);
     return await this.listService.create(
       boardId,
@@ -50,13 +52,14 @@ export class ListController {
   }
 
   // 컬럼 리스트 수정
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':listId')
   async update(
     @Param('boardId') boardId: number,
     @Param('listId') listId: number,
     @Body() createListDto: CreateListDto,
   ) {
-    await this.boardService.findById(boardId);
+    // await this.boardService.findById(boardId);
     await this.listService.update(boardId, listId, createListDto);
 
     return {
@@ -67,12 +70,13 @@ export class ListController {
   }
 
   // 컬럼 리스트 삭제
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':listId')
   async remove(
     @Param('boardId') boardId: number,
     @Param('listId') listId: number,
   ) {
-    await this.boardService.findById(boardId);
+    // await this.boardService.findById(boardId);
     await this.listService.delete(listId);
     return {
       statusCode: HttpStatus.OK,
@@ -82,13 +86,14 @@ export class ListController {
   // 특정 컬럼 리스트 조회
 
   // 컬럼 리스트 이동
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':listId/position/:value')
   async moveList(
     @Param('boardId') boardId: number,
     @Param('listId') listId: number,
     @Param('value') value: number,
   ) {
-    await this.boardService.findById(boardId);
+    // await this.boardService.findById(boardId);
     const list = await this.listService.moveList(listId, value);
     return {
       statusCode: HttpStatus.OK,

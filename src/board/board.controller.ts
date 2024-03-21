@@ -21,13 +21,13 @@ import { User } from 'src/user/entities/user.entity';
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
-  @Post('create/:userId')
+  @Post('create')
   @UseGuards(AuthGuard('jwt'))
   async createBoard(
-    @Param('userId') userId: number,
+    @UserInfo() user: User,
     @Body() createBoardDto: CreateBoardDto,
   ) {
-    return await this.boardService.createBoard(userId, createBoardDto);
+    return await this.boardService.createBoard(user, createBoardDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -46,12 +46,10 @@ export class BoardController {
     return await this.boardService.updateBoard(user, id, updateBoardDto);
   }
 
-  @Delete(':userId/:boardId')
-  async removeBoard(
-    @Param('userId') userId: number,
-    @Param('boardId') boardId: number,
-  ) {
-    return await this.boardService.removeBoard(userId, boardId);
+  @Delete(':boardId')
+  @UseGuards(AuthGuard('jwt'))
+  async removeBoard(@UserInfo() user: User, @Param('boardId') boardId: number) {
+    return await this.boardService.removeBoard(user, boardId);
   }
 
   @Post(':id/invite/:invitedUser')

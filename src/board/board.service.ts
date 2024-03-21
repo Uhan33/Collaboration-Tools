@@ -26,23 +26,24 @@ export class BoardService {
   // shared에도 생성한 사람 정보가 들어가야된다
   // where에 추가로 조건을 주던가
   async createBoard(
-    userId: number,
+    // userId: number,
+    user: User,
     createBoardDto: CreateBoardDto,
   ): Promise<Board> {
-    const user = await this.userRepository.findOne({
+    const users = await this.userRepository.findOne({
       where: {
-        id: userId,
+        id: user.id,
       },
     });
 
-    if (!user) {
+    if (!users) {
       throw new BadRequestException('유저를 찾을 수 없습니다.');
     }
     const newBoard = new Board();
     newBoard.title = createBoardDto.title;
     newBoard.content = createBoardDto.content;
     newBoard.backgroundColor = createBoardDto.backgroundColor;
-    newBoard.user = user;
+    newBoard.user = users;
     return await this.boardRepository.save(newBoard);
   }
 
@@ -99,12 +100,12 @@ export class BoardService {
   }
 
   // 삭제는 생성한 사람만
-  async removeBoard(userId: number, id: number): Promise<boolean> {
+  async removeBoard(user: User, id: number): Promise<boolean> {
     const board = await this.boardRepository.findOne({
       where: { id },
     });
 
-    if (!board || board.userId !== +userId) {
+    if (!board || board.userId !== +user.id) {
       return false;
     }
 

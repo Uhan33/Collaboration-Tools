@@ -39,24 +39,23 @@ export class ListController {
     @Body() createListDto: CreateListDto,
   ) {
     await this.boardService.findById(boardId);
-    const list = await this.listService.create(boardId, createListDto);
-
-    return {
-      statusCode: HttpStatus.CREATED,
-      message: '리스트가 성공적으로 생성되었습니다.',
-      list,
-    };
+    const listNumber = await this.listService.count(boardId);
+    return await this.listService.create(
+      boardId,
+      createListDto,
+      Number(listNumber.totalList) + 1,
+    );
   }
 
   // 컬럼 리스트 수정
   @Patch(':listId')
   async update(
     @Param('boardId') boardId: number,
-    @Param('listId') id: number,
+    @Param('listId') listId: number,
     @Body() createListDto: CreateListDto,
   ) {
     await this.boardService.findById(boardId);
-    await this.listService.update(boardId, id, createListDto);
+    await this.listService.update(boardId, listId, createListDto);
 
     return {
       statusCode: HttpStatus.OK,
@@ -67,9 +66,12 @@ export class ListController {
 
   // 컬럼 리스트 삭제
   @Delete(':listId')
-  async remove(@Param('boardId') boardId: number, @Param('listId') id: number) {
+  async remove(
+    @Param('boardId') boardId: number,
+    @Param('listId') listId: number,
+  ) {
     await this.boardService.findById(boardId);
-    await this.listService.delete(id);
+    await this.listService.delete(listId);
     return {
       statusCode: HttpStatus.OK,
       message: '리스트가 성공적으로 삭제되었습니다.',
@@ -78,18 +80,18 @@ export class ListController {
   // 특정 컬럼 리스트 조회
 
   // 컬럼 리스트 이동
-  // @Patch(':listId/position/:value')
-  // async moveList(
-  //   @Param('boardId') boardId: number,
-  //   @Param('listId') id: number,
-  //   @Param('value') value: number,
-  // ) {
-  //   await this.boardService.findById(boardId);
-  //   const list = await this.listService.moveList(id, value);
-  //   return {
-  //     statusCode: HttpStatus.OK,
-  //     message: '리스트가 성공적으로 이동되었습니다.',
-  //     list,
-  //   };
-  // }
+  @Patch(':listId/position/:value')
+  async moveList(
+    @Param('boardId') boardId: number,
+    @Param('listId') listId: number,
+    @Param('value') value: number,
+  ) {
+    await this.boardService.findById(boardId);
+    const list = await this.listService.moveList(listId, value);
+    return {
+      statusCode: HttpStatus.OK,
+      message: '리스트가 성공적으로 이동되었습니다.',
+      list,
+    };
+  }
 }

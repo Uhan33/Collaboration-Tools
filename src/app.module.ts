@@ -56,7 +56,7 @@ const typeOrmModuleOptions = {
     CardModule,
     CommentModule,
     AuthModule,
-    // ListModule,
+    ListModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { ListModule } from './list/list.module';
+// import { ListModule } from './list/list.module';
 import { CommentModule } from './comment/comment.module';
 import { CardModule } from './card/card.module';
 import { BoardModule } from './board/board.module';
@@ -16,6 +16,8 @@ import { List } from './list/entities/list.entity';
 import Joi from 'joi';
 import { Comment } from './comment/entities/comment.entity';
 import { Card } from './card/entities/card.entity';
+import { AuthModule } from './auth/auth.module';
+import { ListModule } from './list/list.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -49,12 +51,12 @@ const typeOrmModuleOptions = {
         DB_SYNC: Joi.boolean().required(),
       }),
     }),
-
     TypeOrmModule.forRootAsync(typeOrmModuleOptions),
     UserModule,
     BoardModule,
     CardModule,
     CommentModule,
+    AuthModule,
     ListModule,
   ],
   controllers: [AppController],

@@ -1,4 +1,5 @@
 import { Card } from 'src/card/entities/card.entity';
+import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -36,4 +37,10 @@ export class Comment {
   })
   @JoinColumn()
   card: Card;
+
+  @ManyToOne(() => User, (user) => user.comment, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  user: User;
 }

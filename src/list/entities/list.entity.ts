@@ -42,5 +42,6 @@ export class List {
   @OneToMany(() => Card, (card) => card.list, {
     cascade: true,
   })
-  card: Card[];
+  @JoinColumn()
+  card: Card;
 }

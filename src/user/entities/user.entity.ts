@@ -32,20 +32,17 @@ export class User {
   updatedAt: Date;
 
   @OneToMany(() => Shared, (shared) => shared.user, {
-    cascade: true
+    cascade: true,
   })
   shared: Shared[];
 
   @OneToMany(() => Board, (board) => board.user, {
-    cascade: true
+    cascade: true,
   })
   board: Board[];
 
   @OneToMany(() => Comment, (comment) => comment.user, {
-    cascade: true
+    cascade: true,
   })
   comment: Comment[];
-    
-  // @OneToMany(() => Card, (card) => card.user)
-  // card: Card[];
 }

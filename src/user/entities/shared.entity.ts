@@ -1,3 +1,11 @@
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from './user.entity';
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
@@ -17,6 +25,9 @@ export class Shared {
 
   @Column({ type: 'int', nullable: false })
   boardId: number;
+
+  @Column({ default: 'pending' })
+  status: string;
 
   @ManyToOne(() => User, (user) => user.shared)
   @JoinColumn()

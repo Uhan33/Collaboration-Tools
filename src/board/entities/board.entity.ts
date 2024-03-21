@@ -24,7 +24,7 @@ export class Board {
   @Column({ type: 'varchar', nullable: false })
   title: string;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar', nullable: true })
   content: string;
 
   @Column({ type: 'varchar', nullable: false, default: 'white' })

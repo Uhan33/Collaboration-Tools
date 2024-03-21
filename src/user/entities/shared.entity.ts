@@ -3,15 +3,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './user.entity';
-
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "./user.entity";
-import { Card } from "src/card/entities/card.entity";
-import { Board } from "src/board/entities/board.entity";
-
+import { Board } from 'src/board/entities/board.entity';
+import { Card } from 'src/card/entities/card.entity';
 
 @Entity({
   name: 'shared',

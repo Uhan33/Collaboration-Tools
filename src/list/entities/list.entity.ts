@@ -1,39 +1,50 @@
-import { Board } from "src/board/entities/board.entity";
-import { Card } from "src/card/entities/card.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Board } from 'src/board/entities/board.entity';
+import { Card } from 'src/card/entities/card.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({
-    name: 'list',
+  name: 'list',
 })
 export class List {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ type: 'int', nullable: false})
-    boardId: number
+  @Column({ type: 'int', nullable: false })
+  boardId: number;
 
-    @Column({ type: 'varchar', nullable: false})
-    title: string
 
-    @Column({ type: 'varchar', nullable: false})
-    position: string
+  @Column({ type: 'varchar', nullable: false })
+  title: string;
 
-    @CreateDateColumn() 
-    createdAt: Date; 
+  @Column({ type: 'int', nullable: false})
+  position: number
 
-    @UpdateDateColumn() 
-    updatedAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @ManyToOne(() => Board, (board) => board.list, {
-        onDelete: 'CASCADE'
-    })
-    @JoinColumn()
-    board: Board;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
-    @OneToMany(() => Card, (card) => card.list, {
-        cascade: true,
-    })
-    card: Card;
+  @ManyToOne(() => Board, (board) => board.list, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  board: Board;
+
+  @OneToMany(() => Card, (card) => card.list, {
+    cascade: true,
+  })
+  @JoinColumn()
+  card: Card;
+
+
 }
-
-

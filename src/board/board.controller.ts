@@ -7,33 +7,43 @@ import {
   Param,
   Delete,
   ParseArrayPipe,
+  UseGuards,
 } from '@nestjs/common';
 
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { BoardService } from './board.service';
+import { AuthGuard } from '@nestjs/passport';
+import { UserInfo } from 'src/user/utils/userInfo.decorator';
+import { User } from 'src/user/entities/user.entity';
 
 @Controller('board')
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
-  @Post('create')
-  async createBoard(@Body() createBoardDto: CreateBoardDto, userId: number) {
-    return await this.boardService.createBoard(createBoardDto);
+  @Post('create/:userId')
+  @UseGuards(AuthGuard('jwt'))
+  async createBoard(
+    @Param('userId') userId: number,
+    @Body() createBoardDto: CreateBoardDto,
+  ) {
+    return await this.boardService.createBoard(userId, createBoardDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':userId')
   async getBoards(@Param('userId') userId: number) {
     return await this.boardService.getBoards(userId);
   }
 
-  @Patch(':userId/:boardId')
+  @Patch(':boardId')
+  @UseGuards(AuthGuard('jwt'))
   async updateBoard(
-    @Param('userId') userId: number,
+    @UserInfo() user: User,
     @Param('id') id: number,
     @Body() updateBoardDto: UpdateBoardDto,
   ) {
-    return await this.boardService.updateBoard(userId, id, updateBoardDto);
+    return await this.boardService.updateBoard(user, id, updateBoardDto);
   }
 
   @Delete(':userId/:boardId')
@@ -45,6 +55,7 @@ export class BoardController {
   }
 
   @Post(':id/invite/:invitedUser')
+  @UseGuards(AuthGuard('jwt'))
   async inviteUser(
     @Param('id') id: number,
     @Param('invitedUser') invitedUser: number,
@@ -58,5 +69,17 @@ export class BoardController {
     } catch (err) {
       return { message: '초대 과정에서 오류 발생가 발생되었습니다.' };
     }
+  }
+
+  @Patch('invite/accept')
+  @UseGuards(AuthGuard('jwt'))
+  async acceptInvite(@UserInfo() user: User) {
+    return await this.boardService.acceptInvite(user);
+  }
+
+  @Patch('invite/refuse')
+  @UseGuards(AuthGuard('jwt'))
+  async refuseInvite(@UserInfo() user: User) {
+    return await this.boardService.refuseInvite(user);
   }
 }

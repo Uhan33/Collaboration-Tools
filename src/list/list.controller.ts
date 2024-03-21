@@ -1,34 +1,95 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ListService } from './list.service';
-import { CreateListDto } from './dto/create-list.dto';
-import { UpdateListDto } from './dto/update-list.dto';
+// import {
+//   Controller,
+//   Get,
+//   Post,
+//   Body,
+//   Patch,
+//   Param,
+//   Delete,
+//   HttpStatus,
+// } from '@nestjs/common';
+// import { ListService } from './list.service';
+// import { CreateListDto } from './dto/create-list.dto';
+// import { BoardService } from 'src/board/board.service';
+// @Controller(':boardId/list')
+// export class ListController {
+//   constructor(
+//     private readonly listService: ListService,
+//     private readonly boardService: BoardService,
+//   ) {}
 
-@Controller('list')
-export class ListController {
-  constructor(private readonly listService: ListService) {}
+//   // 컬럼 리스트 조회
+//   @Get()
+//   async findAll(@Param('boardId') boardId: number) {
+//     await this.boardService.findById(boardId);
 
-  @Post()
-  create(@Body() createListDto: CreateListDto) {
-    return this.listService.create(createListDto);
-  }
+//     const lists = await this.listService.findAll(boardId);
 
-  @Get()
-  findAll() {
-    return this.listService.findAll();
-  }
+//     return {
+//       statusCode: HttpStatus.OK,
+//       message: '리스트가 성공적으로 조회되었습니다.',
+//       lists,
+//     };
+//   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.listService.findOne(+id);
-  }
+//   // 컬럼 리스트 생성
+//   @Post('create')
+//   async create(
+//     @Param('boardId') boardId: number,
+//     @Body() createListDto: CreateListDto,
+//   ) {
+//     await this.boardService.findById(boardId);
+//     const list = await this.listService.create(boardId, createListDto);
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateListDto: UpdateListDto) {
-    return this.listService.update(+id, updateListDto);
-  }
+//     return {
+//       statusCode: HttpStatus.CREATED,
+//       message: '리스트가 성공적으로 생성되었습니다.',
+//       list,
+//     };
+//   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.listService.remove(+id);
-  }
-}
+//   // 컬럼 리스트 수정
+//   @Patch(':listId')
+//   async update(
+//     @Param('boardId') boardId: number,
+//     @Param('listId') id: number,
+//     @Body() createListDto: CreateListDto,
+//   ) {
+//     await this.boardService.findById(boardId);
+//     await this.listService.update(boardId, id, createListDto);
+
+//     return {
+//       statusCode: HttpStatus.OK,
+//       message: '리스트가 성공적으로 수정되었습니다.',
+//       // list,
+//     };
+//   }
+
+//   // 컬럼 리스트 삭제
+//   @Delete(':listId')
+//   async remove(@Param('boardId') boardId: number, @Param('listId') id: number) {
+//     await this.boardService.findById(boardId);
+//     await this.listService.delete(id);
+//     return {
+//       statusCode: HttpStatus.OK,
+//       message: '리스트가 성공적으로 삭제되었습니다.',
+//     };
+//   }
+//   // 특정 컬럼 리스트 조회
+
+//   // 컬럼 리스트 이동
+//   // @Patch(':listId/position/:value')
+//   // async moveList(
+//   //   @Param('boardId') boardId: number,
+//   //   @Param('listId') id: number,
+//   //   @Param('value') value: number,
+//   // ) {
+//   //   await this.boardService.findById(boardId);
+//   //   const list = await this.listService.moveList(id, value);
+//   //   return {
+//   //     statusCode: HttpStatus.OK,
+//   //     message: '리스트가 성공적으로 이동되었습니다.',
+//   //     list,
+//   //   };
+//   // }
+// }

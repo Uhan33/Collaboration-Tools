@@ -25,17 +25,14 @@ export class Board {
   @Column({ type: 'varchar', nullable: false })
   title: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   content: string;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar', nullable: false, default: 'white' })
   backgroundColor: string;
 
   @CreateDateColumn()
   createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.board)
   @JoinColumn()

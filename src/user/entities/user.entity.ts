@@ -9,6 +9,7 @@ import {
 import { Role } from '../types/userRole.type';
 import { Shared } from './shared.entity';
 import { Board } from 'src/board/entities/board.entity';
+import { Comment } from 'src/comment/entities/comment.entity';
 
 @Entity({
   name: 'user',
@@ -44,4 +45,9 @@ export class User {
     cascade: true,
   })
   board: Board[];
+
+  @OneToMany(() => Comment, (comment) => comment.user, {
+    cascade: true,
+  })
+  comment: Comment[];
 }

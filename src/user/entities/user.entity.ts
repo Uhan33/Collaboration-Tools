@@ -3,6 +3,7 @@ import { Role } from "../types/userRole.type";
 import { Shared } from "./shared.entity";
 import { Board } from "src/board/entities/board.entity";
 import { Comment } from "src/comment/entities/comment.entity";
+import { Card } from "src/card/entities/card.entity";
 
 
 @Entity({
@@ -44,4 +45,7 @@ export class User {
     cascade: true
   })
   comment: Comment[];
+    
+  // @OneToMany(() => Card, (card) => card.user)
+  // card: Card[];
 }

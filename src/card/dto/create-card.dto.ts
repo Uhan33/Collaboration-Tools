@@ -13,11 +13,12 @@ export class CreateCardDto {
     @IsNotEmpty({ message: '카드 내용을 입력해주세요.' })
     content: string;
 
-    @IsString()
+    worker: number;
+
     backgroundColor: string;
 
-    @IsString()
-    image: string;
+    // @ApiProperty({ type: 'string', format: 'binary', description: '파일' })
+    // image: Express.Multer.File;
 
     @IsString()
     @IsNotEmpty({ message: '시작일을 입력해주세요 ex) 2024-03-18' })
@@ -28,3 +29,4 @@ export class CreateCardDto {
     dueDate: string;
 
 }
+

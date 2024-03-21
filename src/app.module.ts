@@ -16,6 +16,7 @@ import { List } from './list/entities/list.entity';
 import Joi from 'joi';
 import { Comment } from './comment/entities/comment.entity';
 import { Card } from './card/entities/card.entity';
+import { AuthModule } from './auth/auth.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -54,7 +55,9 @@ const typeOrmModuleOptions = {
   BoardModule, 
   CardModule, 
   CommentModule, 
-  ListModule],
+  ListModule,
+  AuthModule
+],
   controllers: [AppController],
   providers: [AppService],
 })

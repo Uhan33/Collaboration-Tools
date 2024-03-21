@@ -1,6 +1,8 @@
 
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
+import { Card } from "src/card/entities/card.entity";
+import { Board } from "src/board/entities/board.entity";
 
 
 @Entity({
@@ -19,4 +21,11 @@ export class Shared {
   @ManyToOne(() => User, (user) => user.shared)
   @JoinColumn()
   user: User;
+
+  @ManyToOne(() => Board, (board) => board.shared)
+  @JoinColumn()
+  board: Board;
+
+  @OneToMany(() => Card, (card) => card.shared)
+  card: Card[];
 }

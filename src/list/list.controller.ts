@@ -17,7 +17,7 @@ export class ListController {
     private readonly listService: ListService,
     private readonly boardService: BoardService,
   ) {
-    await this.boardService.findById(boardId);
+    // await this.boardService.findById(boardId);
   }
 
   // 컬럼 리스트 조회

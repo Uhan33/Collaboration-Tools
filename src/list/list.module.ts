@@ -6,9 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Card } from 'src/card/entities/card.entity';
 import { Board } from 'src/board/entities/board.entity';
 import { BoardService } from 'src/board/board.service';
+import { Shared } from 'src/user/entities/shared.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([List, Card, Board])],
+  imports: [TypeOrmModule.forFeature([List, Card, Board, User, Shared])],
   controllers: [ListController],
   providers: [ListService, BoardService],
 })

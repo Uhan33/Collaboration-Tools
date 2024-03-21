@@ -14,33 +14,33 @@ import {
   name: 'comment',
 })
 export class Comment {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column({ type: 'int', nullable: false })
-  cardId: number;
+    @Column({ type: 'int', nullable: false })
+    cardId: number;
 
-  @Column({ type: 'int', nullable: false })
-  userId: number;
+    @Column({ type: 'int', nullable: false })
+    userId: number;
 
-  @Column({ type: 'varchar' })
-  content: string;
+    @Column({ type: 'varchar' })
+    content: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
+    @CreateDateColumn()
+    createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+    @UpdateDateColumn()
+    updatedAt: Date;
 
-  @ManyToOne(() => Card, (card) => card.comment, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn()
-  card: Card;
+    @ManyToOne(() => Card, (card) => card.comment, {
+        onDelete: 'CASCADE',
+    })
+    @JoinColumn()
+    card: Card;
 
-  @ManyToOne(() => User, (user) => user.comment, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn()
-  user: User;
+    @ManyToOne(() => User, (user) => user.comment, {
+        onDelete: 'CASCADE',
+    })
+    @JoinColumn()
+    user: User;
 }

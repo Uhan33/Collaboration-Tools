@@ -1,4 +1,5 @@
 import { List } from 'src/list/entities/list.entity';
+import { Shared } from 'src/user/entities/shared.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -40,4 +41,9 @@ export class Board {
     cascade: true,
   })
   list: List[];
+
+  @OneToMany(() => Shared, (shared) => shared.board, {
+    cascade: true,
+  })
+  shared: Shared[];
 }

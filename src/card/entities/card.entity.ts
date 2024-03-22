@@ -64,14 +64,6 @@ export class Card {
   @JoinColumn()
   list: List;
 
-  // @ManyToOne(() => User, (user) => user.card)
-  // @JoinColumn({name: 'worker'})
-  // user: User;
-
-  @ManyToOne(() => Shared, (shared) => shared.card)
-  @JoinColumn({name: 'worker', referencedColumnName: "userId"})
-  shared: Shared;
-
   @Column({type: 'int', nullable: false})
   worker: number;
 }

@@ -33,7 +33,4 @@ export class Shared {
   @ManyToOne(() => Board, (board) => board.shared)
   @JoinColumn()
   board: Board;
-
-  @OneToMany(() => Card, (card) => card.shared)
-  card: Card[];
 }

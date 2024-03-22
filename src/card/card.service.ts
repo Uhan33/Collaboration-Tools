@@ -76,12 +76,26 @@ export class CardService {
   }
 
   // 카드 조회
-  async findListId(listId: number): Promise<Card[]> {
+  async findListId(listId: number): Promise<{}> {
     const cards = await this.cardRepository.find({ where: { listId }, order: {position: 'ASC'} });
     if (!cards.length) {
       throw new NotFoundException(`No cards found for list with ID ${listId}`);
     }
-    return cards;
+    return cards.map((card) => {
+      return {
+        cardId: card.id,
+        listId: card.listId,
+        userId: card.userId,
+        타이틀: card.title,
+        내용: card.content,
+        이미지: card.image,
+        배경색상: card.backgroundColor,
+        작업자Id: card.worker,
+        시작일: card.startDate,
+        마감일: card.dueDate,
+        position: card.position
+      };
+    });
   }
 
   async findOneByCardId(id: number) {

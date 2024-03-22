@@ -20,7 +20,7 @@ export class CardController {
 
   //조회
   @Get()
-  async findListId(@Query('listId') listId: string): Promise<Card[]> {
+  async findListId(@Query('listId') listId: string): Promise<{}> {
     if (!listId) {
       throw new NotFoundException('List ID is required');
     }

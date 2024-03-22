@@ -72,7 +72,7 @@ export class BoardService {
 
     // 보드의 소유자 혹은 공유된 보드 권한 확인하는 로직
     const ownerOrShared =
-      board.userId === +user.id || (await this.checkSharedBoard(id, user.id)); // userInfo -> user.id
+      board.userId === +user.id || Boolean((await this.checkSharedBoard(id, user.id))); // userInfo -> user.id
     if (!ownerOrShared) {
       return { message: '보드를 수정할 권한이 없습니다.' }; // 보드를 수정할 권한이 없음
     }
@@ -168,14 +168,14 @@ export class BoardService {
   }
 
   /// 공유가 된 사용자인지 확인
-  async checkSharedBoard(boardId: number, userId: number): Promise<boolean> {
+  async checkSharedBoard(boardId: number, userId: number): Promise<Shared> {
     const shared = await this.sharedRepository.findOne({
       where: {
         boardId,
         userId,
       },
     });
-    return Boolean(shared);
+    return shared;
   }
 
   // list에서 boardId 확인용

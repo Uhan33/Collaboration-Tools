@@ -13,5 +13,6 @@ import { User } from 'src/user/entities/user.entity';
   imports: [TypeOrmModule.forFeature([List, Card, Board, User, Shared])],
   controllers: [ListController],
   providers: [ListService, BoardService],
+  exports: [ListService]
 })
 export class ListModule {}

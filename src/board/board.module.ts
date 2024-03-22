@@ -9,6 +9,7 @@ import { Shared } from 'src/user/entities/shared.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Board, User, Shared])],
   controllers: [BoardController],
-  providers: [BoardService]
+  providers: [BoardService],
+  exports: [BoardService]
 })
 export class BoardModule {}

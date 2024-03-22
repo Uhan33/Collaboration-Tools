@@ -1,14 +1,15 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { Card } from './entities/card.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsOrderValue, In, Repository } from 'typeorm';
 import _ from 'lodash';
-import { List } from 'src/list/entities/list.entity';
-import { Shared } from 'src/user/entities/shared.entity';
 import { S3 } from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
+import { ListService } from 'src/list/list.service';
+import { BoardService } from 'src/board/board.service';
+import 'dayjs/locale/ko';
 
 @Injectable()
 export class CardService {
@@ -16,14 +17,14 @@ export class CardService {
     private configService: ConfigService,
     @InjectRepository(Card)
     private cardRepository: Repository<Card>,
-    @InjectRepository(List)
-    private listRepository: Repository<List>,  // list 메서드 생기면 삭제
-    @InjectRepository(Shared)
-    private sharedRepository: Repository<Shared>, // shared 메서드 생기면 삭제
+    @Inject(ListService)
+    private readonly listService: ListService,
+    @Inject(BoardService)
+    private readonly boradService: BoardService,
   ) { }
 
   async createCard(createCardDto: CreateCardDto, userId: number) {
-    const list = await this.findlistById(createCardDto.listId);
+    const list = await this.listService.findOne(createCardDto.listId);
     if (_.isNil(list))
       throw new NotFoundException('존재하지 않는 리스트입니다.')
 
@@ -39,7 +40,11 @@ export class CardService {
     const dueDate = new Date(createCardDto.dueDate);
 
     if (!startDate || !dueDate)
-      throw new BadRequestException('시작일 또는 마감일 요청이 올바르지 않습니다.');
+      throw new BadRequestException('시작일 또는 마감일 요청이 올바르지 않습니다.')
+
+    console.log(startDate, dueDate, new Date());
+    if (dueDate < new Date() || startDate > dueDate)
+      throw new BadRequestException('마감일이 올바르지 않습니다.');
 
     let nextCardPosition: number;
 
@@ -223,30 +228,11 @@ export class CardService {
     return await this.sortByPosition('card', 1, 'ASC');
   }
 
-  // -------------- list repo ----------------------
-  async findlistById(id: number) {
-    return await this.listRepository.findOneBy({ id });
-  }
-
-
-  // -------------- shared repo ---------------------
-  async findUserByBoardId(boardId: number) {
-    return await this.sharedRepository.findBy({ boardId })
-  }
-
-  async findboardByUserId(userId: number) {
-    return await this.sharedRepository.findBy({ userId })
-  }
-
-  async findOneUser(userId: number, boardId: number) {
-    return await this.sharedRepository.findOneBy({ userId, boardId });
-  }
-
   // validate Board 
   async CheckAllowBoard(listId: number, userId: number) {
-    const checkBoard = await this.findlistById(listId)
-    const checkShared = await this.findOneUser(userId, checkBoard.id);
-    if (_.isNil(checkShared))
+    const list = await this.listService.findOne(listId);
+    const checkAllow = await this.boradService.checkSharedBoard(list.boardId, userId)
+    if (!checkAllow || checkAllow.status !== 'accepted')
       throw new UnauthorizedException('접근자 또는 작업자가 권한이 없습니다.');
   }
 }

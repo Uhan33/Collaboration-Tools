@@ -31,9 +31,9 @@ export class BoardController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get(':userId')
-  async getBoards(@Param('userId') userId: number) {
-    return await this.boardService.getBoards(userId);
+  @Get()
+  async getBoards(@UserInfo() user: User) {
+    return await this.boardService.getBoards(user.id);
   }
 
   @Patch(':boardId')

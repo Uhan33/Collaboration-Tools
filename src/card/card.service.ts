@@ -20,7 +20,7 @@ export class CardService {
     @Inject(ListService)
     private readonly listService: ListService,
     @Inject(BoardService)
-    private readonly boradService: BoardService,
+    private readonly boardService: BoardService,
   ) { }
 
   async createCard(createCardDto: CreateCardDto, userId: number) {
@@ -298,7 +298,7 @@ export class CardService {
   // validate Board 
   async CheckAllowBoard(listId: number, userId: number) {
     const list = await this.listService.findOne(listId);
-    const checkAllow = await this.boradService.checkSharedBoard(list.boardId, userId)
+    const checkAllow = await this.boardService.checkSharedBoard(list.boardId, userId)
     if (!checkAllow || checkAllow.status !== 'accepted')
       throw new UnauthorizedException('접근자 또는 작업자가 권한이 없습니다.');
   }

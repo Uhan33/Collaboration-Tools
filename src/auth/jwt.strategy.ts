@@ -29,7 +29,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       req.headers.cookie.length > 0
   ) {
       const [key, value] = req.headers.cookie.split('=')
-      console.log(value);
       return value;
   }
   return null;

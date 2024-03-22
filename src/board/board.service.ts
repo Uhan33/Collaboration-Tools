@@ -7,7 +7,7 @@ import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Board } from './entities/board.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Shared } from 'src/user/entities/shared.entity';
 import _ from 'lodash';
@@ -41,6 +41,7 @@ export class BoardService {
     if (!users) {
       throw new BadRequestException('유저를 찾을 수 없습니다.');
     }
+    
     const newBoard = new Board();
     newBoard.title = createBoardDto.title;
     newBoard.content = createBoardDto.content;
@@ -51,11 +52,7 @@ export class BoardService {
 
   // shared로 보드 권한 주기
   async getBoards(userId: number) {
-    return await this.boardRepository.find({
-      where: {
-        userId,
-      },
-    });
+    return await this.checkBoard(userId);
   }
 
   // shared로 권한주기
@@ -93,9 +90,9 @@ export class BoardService {
       };
     }
 
-    board.title = updateBoardDto.title;
-    board.backgroundColor = updateBoardDto.backgroundColor;
-    board.content = updateBoardDto.content;
+    updateBoardDto.title? board.title = updateBoardDto.title : 0;
+    updateBoardDto.backgroundColor? board.backgroundColor = updateBoardDto.backgroundColor : 0;
+    updateBoardDto.content? board.content = updateBoardDto.content : 0;
 
     await this.boardRepository.save(board);
     return board;
@@ -218,6 +215,26 @@ export class BoardService {
       },
     });
     return shared;
+  }
+
+  async checkBoard( userId: number): Promise<Board[]> {
+    const shared = await this.sharedRepository.find({
+      where: {
+        userId,
+      },
+      select: {
+        boardId: true,
+      }
+    });
+
+
+    let boardIdArr = [];
+    for(let i of shared) {
+      boardIdArr.push(i.boardId);
+    }
+    return await this.boardRepository.find({
+      where: {id: In(boardIdArr)}
+    });
   }
 
   // list에서 boardId 확인용

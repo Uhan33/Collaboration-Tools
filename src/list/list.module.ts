@@ -13,6 +13,7 @@ import { MailService } from 'src/utils/mail/mail.service';
 @Module({
   imports: [TypeOrmModule.forFeature([List, Card, Board, User, Shared])],
   controllers: [ListController],
-  providers: [ListService, BoardService, MailService],
+  providers: [ListService, BoardService],
+  exports: [ListService],
 })
 export class ListModule {}

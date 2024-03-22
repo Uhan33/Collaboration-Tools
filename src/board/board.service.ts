@@ -213,14 +213,14 @@ export class BoardService {
   }
 
   /// 공유가 된 사용자인지 확인
-  async checkSharedBoard(boardId: number, userId: number): Promise<boolean> {
+  async checkSharedBoard(boardId: number, userId: number): Promise<Shared> {
     const shared = await this.sharedRepository.findOne({
       where: {
         boardId,
         userId,
       },
     });
-    return Boolean(shared);
+    return shared;
   }
 
   // list에서 boardId 확인용

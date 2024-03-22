@@ -1,10 +1,11 @@
-import _ from 'lodash';
+import _, { split } from 'lodash';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UserService } from 'src/user/user.service';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
+import { Request as RequestType } from 'express';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -13,11 +14,27 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     private readonly configService: ConfigService,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        JwtStrategy.extractJWT,
+        ExtractJwt.fromAuthHeaderAsBearerToken()
+      ]),
       ignoreExpiration: false,
       secretOrKey: configService.get('JWT_SECRET_KEY'),
     });
   }
+
+  private static extractJWT(req: RequestType): string | null {
+    console.log(req.headers.cookie);
+    if (
+      req.headers.cookie &&
+      req.headers.cookie.length > 0
+  ) {
+      const [key, value] = req.headers.cookie.split('=')
+      console.log(value);
+      return value;
+  }
+  return null;
+}
 
   async validate(payload: any) {
     const user = await this.userService.findByEmail(payload.email);

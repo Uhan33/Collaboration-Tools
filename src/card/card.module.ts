@@ -55,7 +55,7 @@ import { MailModule } from 'src/utils/mail/mail.module';
         };
       },
     }),
-  ], // List, Shared는 삭제예정
+  ],
   controllers: [CardController],
   providers: [CardService],
   exports: [CardService],

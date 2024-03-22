@@ -17,9 +17,6 @@ export class CreateCardDto {
 
     backgroundColor: string;
 
-    // @ApiProperty({ type: 'string', format: 'binary', description: '파일' })
-    // image: Express.Multer.File;
-
     @IsString()
     @IsNotEmpty({ message: '시작일을 입력해주세요 ex) 2024-03-18' })
     startDate: string;

@@ -16,56 +16,57 @@ export class CommentService {
     private readonly cardService: CardService
   ) { }
 
-  async createComment(createCommentDto: CreateCommentDto, user: number) {
-    console.log(user);
+  async createComment(createCommentDto: CreateCommentDto, userId: number) {
     const card = await this.cardService.findOneByCardId(createCommentDto.cardId);
     if (_.isNil(card))
       throw new NotFoundException('존재하지 않는 카드입니다.')
 
     // 댓글을 작성할 수 있는 권한이 있는지 체크
-    await this.cardService.CheckAllowBoard(card.listId, user['userId']) //userId로 변경해야함
+    await this.cardService.CheckAllowBoard(card.listId, userId) //userId로 변경해야함
 
     return await this.commentRepository.save({
       content: createCommentDto.content,
       cardId: createCommentDto.cardId,
-      userId: 1,
+      userId,
     });
   }
 
   async findAllCommentByCardId(cardId: number, userId: number) {
-    // card.list.boardId
-    // 댓글을 조회할 수 있는 권한이 있는지 체크
+    const card = await this.cardService.findOneByCardId(cardId);
+    if (_.isNil(card))
+      throw new NotFoundException('존재하지 않는 카드입니다.')
 
-    return await this.commentRepository.findBy({cardId});
+    await this.cardService.CheckAllowBoard(card.listId, userId);
+
+    return await this.commentRepository.findBy({ cardId });
   }
 
   async findOneComment(id: number) {
-    return await this.commentRepository.findOneBy({id});
+    return await this.commentRepository.findOneBy({ id });
   }
 
-  async updateComment(id: number, updateCommentDto: UpdateCommentDto, user: number) {
-    await this.validate(id, user['userId']);
+  async updateComment(id: number, updateCommentDto: UpdateCommentDto, userId: number) {
+    await this.validate(id, userId);
 
-    await this.commentRepository.update({id}, updateCommentDto)
+    await this.commentRepository.update({ id }, updateCommentDto)
 
-    return {message: '수정 완료!'};
+    return { message: '수정 완료!' };
   }
 
-  async removeComment(id: number, user: number) {
-    console.log(user)
-    await this.validate(id, user['userId']);
+  async removeComment(id: number, userId: number) {
+    await this.validate(id, userId);
 
-    await this.commentRepository.delete({id})
+    await this.commentRepository.delete({ id })
 
-    return {message: "삭제 완료"};
+    return { message: "삭제 완료" };
   }
 
   async validate(id: number, userId: number) {
     const selectComment = await this.findOneComment(id);
-    if(_.isNil(selectComment))
+    if (_.isNil(selectComment))
       throw new NotFoundException('존재하지 않는 댓글입니다.');
 
-    if(selectComment.userId !== userId)
+    if (selectComment.userId !== userId)
       throw new BadRequestException('권한이 없습니다.');
   }
 }

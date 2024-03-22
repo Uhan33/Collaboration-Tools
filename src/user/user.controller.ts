@@ -75,7 +75,7 @@ export class UserController {
   // 회원삭제
   @UseGuards(AuthGuard('jwt')) // 인증된 사용자만 접근 가능
   @Delete(':id')
-  async remove(@Param('id') id: number): Promise<void> {
+  async remove(@Param('id') id: number): Promise<{}> {
     return this.userService.deleteUser(id);
   }
 }

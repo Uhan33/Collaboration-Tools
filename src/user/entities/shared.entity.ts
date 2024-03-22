@@ -26,11 +26,15 @@ export class Shared {
   @Column({ default: 'pending' })
   status: string;
 
-  @ManyToOne(() => User, (user) => user.shared)
+  @ManyToOne(() => User, (user) => user.shared, {
+    onDelete: 'CASCADE'
+  })
   @JoinColumn()
   user: User;
 
-  @ManyToOne(() => Board, (board) => board.shared)
+  @ManyToOne(() => Board, (board) => board.shared, {
+    onDelete: 'CASCADE'
+  })
   @JoinColumn()
   board: Board;
 }

@@ -33,7 +33,9 @@ export class Board {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.board)
+  @ManyToOne(() => User, (user) => user.board, {
+    onDelete: 'CASCADE'
+  })
   @JoinColumn()
   user: User;
 

@@ -40,7 +40,7 @@ export class BoardController {
   @UseGuards(AuthGuard('jwt'))
   async updateBoard(
     @UserInfo() user: User,
-    @Param('id') id: number,
+    @Param('boardId') id: number,
     @Body() updateBoardDto: UpdateBoardDto,
   ) {
     return await this.boardService.updateBoard(user, id, updateBoardDto);

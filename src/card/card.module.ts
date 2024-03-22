@@ -48,7 +48,7 @@ import { ListModule } from 'src/list/list.module';
         }
       },
     }),
-  ], // List, Shared는 삭제예정
+  ],
   controllers: [CardController],
   providers: [CardService],
   exports: [CardService]

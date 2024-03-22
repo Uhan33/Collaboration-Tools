@@ -93,24 +93,29 @@ export class UserService {
       throw new NotFoundException('사용자를 찾을 수 없습니다.');
     }
 
-    if (updateUserDto.email) {
-      user.email = updateUserDto.email;
+    if (!await compare(updateUserDto.password, user.password)) {
+      throw new UnauthorizedException('비밀번호가 일치하지 않습니다.');
     }
+    await this.userRepository.update({id}, {
+      email: updateUserDto.email, 
+      name: updateUserDto.name,
+    });
 
-    if (updateUserDto.password) {
-      user.password = await hash(updateUserDto.password, 10);
-    }
+    if(updateUserDto.changePassword)
+      await this.userRepository.update({id}, {password: await hash(updateUserDto.changePassword, 10)});
 
-    return this.userRepository.save(user);
+    return await this.userRepository.findOneBy({id});
   }
 
   // 회원정보 삭제
-  async deleteUser(id: number): Promise<void> {
+  async deleteUser(id: number): Promise<{}> {
     const user = await this.userRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException('사용자를 찾을 수 없습니다.');
     }
 
-    await this.userRepository.remove(user);
+    await this.userRepository.delete({id});
+
+    return {message: '삭제 완료!'};
   }
 }

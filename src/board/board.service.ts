@@ -11,6 +11,7 @@ import { Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Shared } from 'src/user/entities/shared.entity';
 import _ from 'lodash';
+import { MailService } from 'src/utils/mail/mail.service';
 
 @Injectable()
 export class BoardService {
@@ -21,6 +22,7 @@ export class BoardService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Shared)
     private readonly sharedRepository: Repository<Shared>,
+    private readonly mailService: MailService,
   ) {}
 
   // shared에도 생성한 사람 정보가 들어가야된다
@@ -65,15 +67,14 @@ export class BoardService {
     const board = await this.boardRepository.findOne({
       where: { id },
     });
-
     if (_.isNil(board)) {
       return null; // 보드가 존재하지 않음
     }
 
     // 보드의 소유자 혹은 공유된 보드 권한 확인하는 로직
-    const ownerOrShared =
-      board.userId === +user.id || (await this.checkSharedBoard(id, user.id)); // userInfo -> user.id
-    if (!ownerOrShared) {
+    const owner = board.userId === +user.id;
+    const shared = await this.checkSharedBoard(id, user.id); // userInfo -> user.id
+    if (!owner && !shared) {
       return { message: '보드를 수정할 권한이 없습니다.' }; // 보드를 수정할 권한이 없음
     }
 
@@ -84,7 +85,8 @@ export class BoardService {
         boardId: id,
       },
     });
-    if (!sharedStatus || sharedStatus.status !== 'accepted') {
+
+    if (!owner && (!sharedStatus || sharedStatus.status !== 'accepted')) {
       return {
         message:
           '초대를 승낙하지 않아 보드를 수정할 수 없습니다. 초대 승낙 후 이용해주세요.',
@@ -104,7 +106,6 @@ export class BoardService {
     const board = await this.boardRepository.findOne({
       where: { id },
     });
-
     if (!board || board.userId !== +user.id) {
       return false;
     }
@@ -113,11 +114,35 @@ export class BoardService {
     return true;
   }
 
-  async inviteUser(id: number, invitedUser: number): Promise<Shared | null> {
+  async inviteUser(
+    id: number,
+    invitedUserEmail: string,
+    currentUser: User,
+  ): Promise<Shared | null> {
+    const user = await this.userRepository.findOne({
+      where: {
+        email: invitedUserEmail,
+      },
+    });
+
+    const board = await this.boardRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (board.userId !== +currentUser.id) {
+      throw new Error('보드에 초대할 권한이 없습니다.');
+    }
+
+    if (!user) {
+      throw new Error('초대된 사용자를 찾을 수 없습니다.');
+    }
+
     // 보드에 공유된 사용자인지 확인하고 공유가 됐다면 그 사용자에게는 null을 반환해줌
     const sharedUser = await this.sharedRepository.findOne({
       where: {
-        userId: invitedUser, // 초대된 사용자
+        userId: user.id, // 초대된 사용자
         boardId: id,
       },
     });
@@ -127,9 +152,29 @@ export class BoardService {
 
     // 공유되지 않은 경우에 new Shared()를 통해 사용자를 보드에 초대
     const shared = new Shared();
-    shared.userId = invitedUser;
+    shared.userId = user.id;
     shared.boardId = id;
-    return await this.sharedRepository.save(shared);
+    await this.sharedRepository.save(shared);
+
+    try {
+      const subject = `${invitedUserEmail}님 SpaceRello 보드에 초대되었습니다.`;
+      const content = `
+      <p>${invitedUserEmail}님 SpaceRello 보드에 초대되었습니다.</p>
+      <p>초대 확인 버튼을 누르시면 초대를 승낙할 수 있습니다.</p>
+      <form action="http://localhost:3000/board/invite/accept" method="POST">
+        <input type="hidden" name="userId" value="${user.id}">
+        <input type="hidden" name="boardId" value="${id}">
+        <button type="submit">초대 확인</button>
+      </form>
+    `;
+
+      await Promise.all([
+        this.mailService.sendMail(invitedUserEmail, subject, content),
+      ]);
+    } catch (err) {
+      console.error('메일 전송 중 오류가 발생했습니다.', err);
+    }
+    return shared;
   }
 
   // 초대 받은 사용자가 초대를 승낙하는 로직

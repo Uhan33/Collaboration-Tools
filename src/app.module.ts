@@ -18,6 +18,7 @@ import { Comment } from './comment/entities/comment.entity';
 import { Card } from './card/entities/card.entity';
 import { AuthModule } from './auth/auth.module';
 import { ListModule } from './list/list.module';
+import { MailModule } from './utils/mail/mail.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -58,8 +59,9 @@ const typeOrmModuleOptions = {
     CommentModule,
     AuthModule,
     ListModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

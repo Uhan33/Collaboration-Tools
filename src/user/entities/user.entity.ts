@@ -1,10 +1,16 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Role } from "../types/userRole.type";
-import { Shared } from "./shared.entity";
-import { Board } from "src/board/entities/board.entity";
-import { Comment } from "src/comment/entities/comment.entity";
-import { Card } from "src/card/entities/card.entity";
-
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Role } from '../types/userRole.type';
+import { Shared } from './shared.entity';
+import { Board } from 'src/board/entities/board.entity';
+import { Comment } from 'src/comment/entities/comment.entity';
+import { Card } from 'src/card/entities/card.entity';
 
 @Entity({
   name: 'user',

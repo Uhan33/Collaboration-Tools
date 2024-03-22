@@ -47,6 +47,11 @@ export class CardController {
     return this.cardService.reset();
   }
 
+  // @Get('test/test1')
+  // test() {
+  //   return this.cardService.test();
+  // }
+
   @Post('/:cardId/upload')
   @UseInterceptors(FileInterceptor('file'))
   uploadFile(

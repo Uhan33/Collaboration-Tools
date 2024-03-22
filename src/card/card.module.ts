@@ -10,10 +10,12 @@ import mime from 'mime';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { S3Client } from '@aws-sdk/client-s3';
 import s3Storage, * as multerS3 from 'multer-s3'
+import { BoardModule } from 'src/board/board.module';
+import { ListModule } from 'src/list/list.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Card, List, Shared]),
+    TypeOrmModule.forFeature([Card, List, Shared]),BoardModule, ListModule,
     MulterModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

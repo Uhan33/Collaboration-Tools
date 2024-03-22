@@ -8,11 +8,12 @@ import { Board } from 'src/board/entities/board.entity';
 import { BoardService } from 'src/board/board.service';
 import { Shared } from 'src/user/entities/shared.entity';
 import { User } from 'src/user/entities/user.entity';
+import { MailService } from 'src/utils/mail/mail.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([List, Card, Board, User, Shared])],
   controllers: [ListController],
-  providers: [ListService, BoardService],
-  exports: [ListService]
+  providers: [ListService, BoardService, MailService],
+  exports: [ListService],
 })
 export class ListModule {}

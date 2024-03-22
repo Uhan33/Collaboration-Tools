@@ -64,6 +64,6 @@ export class Card {
   @JoinColumn()
   list: List;
 
-  @Column({type: 'int', nullable: false})
+  @Column({ type: 'int', nullable: false })
   worker: number;
 }

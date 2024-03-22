@@ -40,7 +40,7 @@ export class BoardController {
   @UseGuards(AuthGuard('jwt'))
   async updateBoard(
     @UserInfo() user: User,
-    @Param('id') id: number,
+    @Param('boardId') id: number,
     @Body() updateBoardDto: UpdateBoardDto,
   ) {
     return await this.boardService.updateBoard(user, id, updateBoardDto);
@@ -52,24 +52,30 @@ export class BoardController {
     return await this.boardService.removeBoard(user, boardId);
   }
 
-  @Post(':id/invite/:invitedUser')
+  @Post(':id/invite')
   @UseGuards(AuthGuard('jwt'))
   async inviteUser(
     @Param('id') id: number,
-    @Param('invitedUser') invitedUser: number,
+    @Body('invitedUserEmail') invitedUserEmail: string,
+    @UserInfo() currentUser: User,
   ) {
     try {
-      const shared = await this.boardService.inviteUser(id, invitedUser);
+      const shared = await this.boardService.inviteUser(
+        id,
+        invitedUserEmail,
+        currentUser,
+      );
       if (shared === null) {
         return { message: '이미 공유가 된 사용자입니다.' };
       }
+
       return { message: '사용자가 초대되었습니다.' };
     } catch (err) {
       return { message: '초대 과정에서 오류 발생가 발생되었습니다.' };
     }
   }
 
-  @Patch('invite/accept')
+  @Post('invite/accept')
   @UseGuards(AuthGuard('jwt'))
   async acceptInvite(@UserInfo() user: User) {
     return await this.boardService.acceptInvite(user);

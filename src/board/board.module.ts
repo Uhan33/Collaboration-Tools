@@ -5,11 +5,12 @@ import { Board } from './entities/board.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Shared } from 'src/user/entities/shared.entity';
+import { MailService } from 'src/utils/mail/mail.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Board, User, Shared])],
   controllers: [BoardController],
-  providers: [BoardService],
-  exports: [BoardService]
+  providers: [BoardService, MailService],
+  exports: [BoardService, MailService],
 })
 export class BoardModule {}

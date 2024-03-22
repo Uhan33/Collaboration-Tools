@@ -9,7 +9,9 @@ import {
   Patch,
   Delete,
   UseGuards,
+  Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 
 import { LoginDto } from './dto/login.dto';
@@ -17,6 +19,8 @@ import { RegisterDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { JwtGuard } from 'src/auth/guards';
 
 @Controller('user')
 export class UserController {
@@ -35,14 +39,20 @@ export class UserController {
 
   // 로그인
   @Post('login')
-  async login(@Body() loginDto: LoginDto) {
-    return await this.userService.login(loginDto.email, loginDto.password);
+  async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
+    const accessToken = await this.userService.login(loginDto.email, loginDto.password);
+    res.cookie('Authorization', accessToken.access_token, {
+      httpOnly: true,
+      maxAge: 12 * 60 * 60 * 1000
+  })
+    return accessToken;
   }
 
   // 회원상세조회
   @UseGuards(AuthGuard('jwt'))
   @Get('email')
   getEmail(@UserInfo() user: User) {
+    console.log(user);
     return { email: user.email, name: user.name };
   }
 

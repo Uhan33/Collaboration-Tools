@@ -68,6 +68,7 @@ export class BoardController {
       if (shared === null) {
         return { message: '이미 공유가 된 사용자입니다.' };
       }
+
       return { message: '사용자가 초대되었습니다.' };
     } catch (err) {
       return { message: '초대 과정에서 오류 발생가 발생되었습니다.' };

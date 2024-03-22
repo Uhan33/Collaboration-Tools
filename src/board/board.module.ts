@@ -11,5 +11,6 @@ import { MailService } from 'src/utils/mail/mail.service';
   imports: [TypeOrmModule.forFeature([Board, User, Shared])],
   controllers: [BoardController],
   providers: [BoardService, MailService],
+  exports: [BoardService, MailService],
 })
 export class BoardModule {}

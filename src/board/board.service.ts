@@ -156,9 +156,8 @@ export class BoardService {
     shared.boardId = id;
     await this.sharedRepository.save(shared);
 
-    try {
-      const subject = `${invitedUserEmail}님 SpaceRello 보드에 초대되었습니다.`;
-      const content = `
+    const subject = `${invitedUserEmail}님 SpaceRello 보드에 초대되었습니다.`;
+    const content = `
       <p>${invitedUserEmail}님 SpaceRello 보드에 초대되었습니다.</p>
       <p>초대 확인 버튼을 누르시면 초대를 승낙할 수 있습니다.</p>
       <form action="http://localhost:3000/board/invite/accept" method="POST">
@@ -168,12 +167,10 @@ export class BoardService {
       </form>
     `;
 
-      await Promise.all([
-        this.mailService.sendMail(invitedUserEmail, subject, content),
-      ]);
-    } catch (err) {
-      console.error('메일 전송 중 오류가 발생했습니다.', err);
-    }
+    await Promise.all([
+      this.mailService.sendMail(invitedUserEmail, subject, content),
+    ]);
+
     return shared;
   }
 

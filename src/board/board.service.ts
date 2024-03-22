@@ -47,7 +47,10 @@ export class BoardService {
     newBoard.content = createBoardDto.content;
     newBoard.backgroundColor = createBoardDto.backgroundColor;
     newBoard.user = users;
-    return await this.boardRepository.save(newBoard);
+    const board = await this.boardRepository.save(newBoard);
+    await this.sharedRepository.save({userId: user.id, boardId: board.id, status: 'accepted'});
+
+    return board;
   }
 
   // shared로 보드 권한 주기

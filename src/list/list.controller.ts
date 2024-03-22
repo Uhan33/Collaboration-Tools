@@ -13,6 +13,8 @@ import { ListService } from './list.service';
 import { CreateListDto } from './dto/create-list.dto';
 import { BoardService } from 'src/board/board.service';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+@ApiTags('3.Lists')
 @Controller(':boardId/list')
 export class ListController {
   constructor(
@@ -21,6 +23,7 @@ export class ListController {
   ) {}
 
   // 컬럼 리스트 조회
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get()
   async findAll(@Param('boardId') boardId: number) {
@@ -36,6 +39,7 @@ export class ListController {
   }
 
   // 컬럼 리스트 생성
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Post('create')
   async create(
@@ -52,6 +56,7 @@ export class ListController {
   }
 
   // 컬럼 리스트 수정
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Patch(':listId')
   async update(
@@ -70,6 +75,7 @@ export class ListController {
   }
 
   // 컬럼 리스트 삭제
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete(':listId')
   async remove(
@@ -86,6 +92,7 @@ export class ListController {
   // 특정 컬럼 리스트 조회
 
   // 컬럼 리스트 이동
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Patch(':listId/position/:value')
   async moveList(

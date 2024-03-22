@@ -9,7 +9,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import mime from 'mime';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { S3Client } from '@aws-sdk/client-s3';
-import s3Storage, * as multerS3 from 'multer-s3'
+import s3Storage, * as multerS3 from 'multer-s3';
 
 @Module({
   imports: [
@@ -24,7 +24,7 @@ import s3Storage, * as multerS3 from 'multer-s3'
             accessKeyId: configService.get('AWS_S3_ACCESS_KEY'),
             secretAccessKey: configService.get('AWS_S3_SECRET_ACCESS_KEY'),
           },
-        })
+        });
 
         return {
           storage: s3Storage({
@@ -33,7 +33,10 @@ import s3Storage, * as multerS3 from 'multer-s3'
             acl: 'public-read',
             contentType: multerS3.AUTO_CONTENT_TYPE,
             key: function (req, file, cb) {
-              cb(null, `${new Date().getTime()}.${mime.extension(file.mimetype)}`)
+              cb(
+                null,
+                `${new Date().getTime()}.${mime.extension(file.mimetype)}`,
+              );
             },
           }),
           limits: {
@@ -41,14 +44,14 @@ import s3Storage, * as multerS3 from 'multer-s3'
             files: 1,
           },
           fileFilter(req, file, callback) {
-            callback(null, true)
+            callback(null, true);
           },
-        }
+        };
       },
     }),
   ], // List, Shared는 삭제예정
   controllers: [CardController],
   providers: [CardService],
-  exports: [CardService]
+  exports: [CardService],
 })
-export class CardModule { }
+export class CardModule {}

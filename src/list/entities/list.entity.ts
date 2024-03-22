@@ -21,6 +21,10 @@ export class List {
   @Column({ type: 'int', nullable: false })
   boardId: number;
 
+  /**
+   * 리스트 제목
+   * @example "리스트 제목입니다."
+   */
   @Column({ type: 'varchar', nullable: false })
   title: string;
 

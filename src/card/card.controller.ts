@@ -18,7 +18,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { UserInfo } from 'src/user/utils/userInfo.decorator';
 import { User } from 'src/user/entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('4.Cards')
 @UseGuards(AuthGuard('jwt'))
 @Controller('card')
 export class CardController {

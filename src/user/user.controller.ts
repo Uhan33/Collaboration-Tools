@@ -17,12 +17,22 @@ import { RegisterDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('1.Users')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   // 회원가입
+  @ApiBody({
+    description: '회원가입인가?',
+    // type: RegisterDto,
+  })
+  @ApiOperation({
+    summary: '회원가입',
+    description: '사용자 정보를 추가합니다.',
+  })
   @Post('register')
   async register(@Body() RegisterDto: RegisterDto) {
     return await this.userService.register(

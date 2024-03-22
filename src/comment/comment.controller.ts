@@ -15,7 +15,9 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UserInfo } from 'src/user/utils/userInfo.decorator';
 import { User } from 'src/user/entities/user.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('5.Comments')
 @UseGuards(AuthGuard('jwt'))
 @Controller('comment')
 export class CommentController {

@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  ParseArrayPipe,
   UseGuards,
 } from '@nestjs/common';
 
@@ -16,7 +15,9 @@ import { BoardService } from './board.service';
 import { AuthGuard } from '@nestjs/passport';
 import { UserInfo } from 'src/user/utils/userInfo.decorator';
 import { User } from 'src/user/entities/user.entity';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('2.Boards')
 @Controller('board')
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
@@ -30,6 +31,7 @@ export class BoardController {
     return await this.boardService.createBoard(user, createBoardDto);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get(':userId')
   async getBoards(@Param('userId') userId: number) {

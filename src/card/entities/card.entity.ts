@@ -1,5 +1,7 @@
 import { Comment } from 'src/comment/entities/comment.entity';
 import { List } from 'src/list/entities/list.entity';
+import { Shared } from 'src/user/entities/shared.entity';
+import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -7,7 +9,6 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -28,10 +29,16 @@ export class Card {
   @Column({ type: 'varchar', nullable: false })
   title: string;
 
+  @Column({ type: 'varchar', nullable: false })
+  content: string;
+
+  @Column({ type: 'varchar', nullable: false })
+  image: string;
+
   @Column({ type: 'varchar', nullable: false, default: 'white' })
   backgroundColor: string;
 
-  @Column({ type: 'int', nullable: false })
+  @Column({ type: 'double', nullable: false })
   position: number;
 
   @Column()
@@ -56,4 +63,7 @@ export class Card {
   })
   @JoinColumn()
   list: List;
+
+  @Column({type: 'int', nullable: false})
+  worker: number;
 }

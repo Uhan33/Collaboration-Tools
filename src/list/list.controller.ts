@@ -24,7 +24,7 @@ export class ListController {
   @UseGuards(AuthGuard('jwt'))
   @Get()
   async findAll(@Param('boardId') boardId: number) {
-    // await this.boardService.findById(boardId);
+    await this.boardService.findById(boardId);
 
     const lists = await this.listService.findAll(boardId);
 
@@ -42,7 +42,7 @@ export class ListController {
     @Param('boardId') boardId: number,
     @Body() createListDto: CreateListDto,
   ) {
-    // await this.boardService.findById(boardId);
+    await this.boardService.findById(boardId);
     const listNumber = await this.listService.count(boardId);
     return await this.listService.create(
       boardId,
@@ -59,7 +59,7 @@ export class ListController {
     @Param('listId') listId: number,
     @Body() createListDto: CreateListDto,
   ) {
-    // await this.boardService.findById(boardId);
+    await this.boardService.findById(boardId);
     await this.listService.update(boardId, listId, createListDto);
 
     return {
@@ -76,7 +76,7 @@ export class ListController {
     @Param('boardId') boardId: number,
     @Param('listId') listId: number,
   ) {
-    // await this.boardService.findById(boardId);
+    await this.boardService.findById(boardId);
     await this.listService.delete(listId);
     return {
       statusCode: HttpStatus.OK,
@@ -93,7 +93,7 @@ export class ListController {
     @Param('listId') listId: number,
     @Param('value') value: number,
   ) {
-    // await this.boardService.findById(boardId);
+    await this.boardService.findById(boardId);
     const list = await this.listService.moveList(listId, value);
     return {
       statusCode: HttpStatus.OK,

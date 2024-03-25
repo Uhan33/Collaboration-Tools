@@ -44,4 +44,4 @@
 
 # ERD
 
--[ [https://drawsql.app/teams/jaeheons-team/diagrams/pet-sitter-v2](https://drawsql.app/teams/uhan33s-team/diagrams/team-6/embed)https://drawsql.app/teams/uhan33s-team/diagrams/team-6/embed](https://drawsql.app/teams/uhan33s-team/diagrams/team-6/embed)https://drawsql.app/teams/uhan33s-team/diagrams/team-6/embed
+- https://drawsql.app/teams/uhan33s-team/diagrams/team-6/embed

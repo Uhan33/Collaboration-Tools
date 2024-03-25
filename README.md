@@ -1,73 +1,47 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## 🧿Collaboration-Tools (SpaceRello)🧿
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### ✨프로젝트 소개
+칸반 보드 기반 프로젝트 협업 도구 만들기
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### 👨‍👩‍👦‍👦 멤버구성 & 맡은 기능
+- 최인철: 회원가입 / 로그인 / 조회 / 수정 / 탈퇴
+- 이재헌: 보드 생성 / 조회 / 수정 / 삭제  + 생성된 보드에 팀원초대 + 초대 승낙 및 거절
+- 조완희: 리스트 생성 / 조회 / 수정 / 삭제 + 리스트 순서 변경
+- 정유한: 카드 생성 / 조회 / 수정 / 삭제 + 카드 순서 변경 + 파일 업로드
+- 정태성: 댓글 생성 / 조회 /수정 / 삭제 
 
-## Description
+# 🔒환경변수
+- DB_HOST=
+- DB_PORT=
+- DB_USERNAME=
+- DB_PASSWORD=
+- DB_NAME=
+- DB_SYNC=
+- JWT_SECRET_KEY=
+- AWS_REGION=
+- AWS_S3_ACCESS_KEY=
+- AWS_S3_SECRET_ACCESS_KEY=
+- AWS_S3_BUCKET=
+- EMILSERVICE=
+- EMILSERVICE=
+- USERMAIL=
+- USERPASS=
+- EMAIL_SECRET_KEY=
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# 패키지
+- npm
 
-## Installation
+# 개발 환경
+- Nest.js
+- Jest
+- TS
+- S3Route
+- TyepORM
+- 
 
-```bash
-$ npm install
-```
+# API 명세서
+- https://www.notion.so/teamsparta/6e01cd4ea65c4b01859524e096e857a1?v=86411bdf8cf94fe783ccaf8eccd764c8
 
-## Running the app
+# ERD
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+-[ [https://drawsql.app/teams/jaeheons-team/diagrams/pet-sitter-v2](https://drawsql.app/teams/uhan33s-team/diagrams/team-6/embed)https://drawsql.app/teams/uhan33s-team/diagrams/team-6/embed](https://drawsql.app/teams/uhan33s-team/diagrams/team-6/embed)https://drawsql.app/teams/uhan33s-team/diagrams/team-6/embed

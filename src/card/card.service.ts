@@ -75,7 +75,7 @@ export class CardService {
     return await this.cardRepository.findOneBy({ worker: newCard.worker });
   }
 
-  // 카드 조회
+  // 카드 조회zz
   async findListId(listId: number): Promise<Card[]> {
     const cards = await this.cardRepository.find({ where: { listId }, order: {position: 'ASC'} });
     if (!cards.length) {
